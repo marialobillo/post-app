@@ -2,23 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-// const Home = (props) => {
-// 	const Posts = props.allPosts.map((post, index) => {
-// 		return (
-// 			<h4 key={index}>{post.title}</h4>
-// 		);
-// 	});
-// 	return (
-// 		<div>
-// 			<h2>Home</h2>
-// 			{Posts}
-// 		</div>
-// 	);
-// }
-
 class Home extends Component{
+
+	componentDidMount(){
+			this.props.dispatch1();
+	}
+
+	componentWillUnmount(){
+		this.props.clear();
+	}
+
 	allPosts = () => {
-		this.props.dispatch1();
+		const Posts = this.props.allPosts.map((post) => {
+			return (
+				<h4 key={post.id}>{post.title}</h4>
+			);
+		});
+		return Posts;
 	}
 
 	render(){
@@ -27,6 +27,7 @@ class Home extends Component{
 		return(
 			<div>
 				<h2>Home</h2>
+				{this.allPosts()}
 			</div>
 		);
 	}
@@ -52,6 +53,11 @@ const mapDispatchToProps = (dispatch) => {
 			.catch((error) => {
 				console.log(error);
 			})
+		},
+		clear: () => {
+			dispatch({
+				type: 'CLEAR_DATA'
+			});
 		}
 	}
 }
